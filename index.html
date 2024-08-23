@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piedra, Papel o Tijeras</title>
+</head>
+<body>
+    <h1>Juego: Piedra, Papel o Tijeras</h1>
+    <button onclick="playGame()">Jugar</button>
+    <div id="result"></div>
+
+    <script>
+     
+        function getComputerChoice() {
+            const choices = ["piedra", "papel", "tijeras"];
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex];
+        }
+
+   
+        function getHumanChoice() {
+            let choice = prompt("Elige piedra, papel o tijeras:").toLowerCase();
+            while (!["piedra", "papel", "tijeras"].includes(choice)) {
+                choice = prompt("Entrada inválida. Elige piedra, papel o tijeras:").toLowerCase();
+            }
+            return choice;
+        }
+
+        
+        let humanScore = 0;
+        let computerScore = 0;
+
+     
+        function playRound(humanChoice, computerChoice) {
+            if (humanChoice === computerChoice) {
+                return "Empate!";
+            } else if (
+                (humanChoice === "piedra" && computerChoice === "tijeras") ||
+                (humanChoice === "papel" && computerChoice === "piedra") ||
+                (humanChoice === "tijeras" && computerChoice === "papel")
+            ) {
+                humanScore++;
+                return `¡Ganas esta ronda! ${humanChoice} le gana a ${computerChoice}.`;
+            } else {
+                computerScore++;
+                return `¡Pierdes esta ronda! ${computerChoice} le gana a ${humanChoice}.`;
+            }
+        }
+
+        
+        function playGame() {
+            humanScore = 0;
+            computerScore = 0;
+
+            for (let i = 0; i < 5; i++) {
+                const humanChoice = getHumanChoice();
+                const computerChoice = getComputerChoice();
+                const result = playRound(humanChoice, computerChoice);
+                alert(result);
+            }
+
+            if (humanScore > computerScore) {
+                document.getElementById("result").innerText = `¡Ganaste el juego! Puntuación: Humano ${humanScore} - Computadora ${computerScore}`;
+            } else if (humanScore < computerScore) {
+                document.getElementById("result").innerText = `¡Perdiste el juego! Puntuación: Humano ${humanScore} - Computadora ${computerScore}`;
+            } else {
+                document.getElementById("result").innerText = `¡Es un empate! Puntuación: Humano ${humanScore} - Computadora ${computerScore}`;
+            }
+        }
+    </script>
+</body>
+</html>
